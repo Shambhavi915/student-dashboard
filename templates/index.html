@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Student Dashboard</title>
+    <link rel="stylesheet" href="/static/style.css">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+
+<body>
+
+<div class="container">
+
+    <h1>Student Performance Dashboard</h1>
+
+    <form method="POST">
+        <input name="study" placeholder="Study Hours" required>
+        <input name="sleep" placeholder="Sleep Hours" required>
+        <input name="attendance" placeholder="Attendance %" required>
+        <input name="previous" placeholder="Previous Marks" required>
+        <button type="submit">Predict</button>
+    </form>
+
+    {% if result %}
+    <div class="card">
+        <h2>Result</h2>
+        <p><b>Marks:</b> {{ result.marks }}</p>
+        <p><b>Grade:</b> {{ result.grade }}</p>
+    </div>
+    {% endif %}
+
+    {% if insights %}
+    <div class="card">
+        <h2>AI Insights</h2>
+        <ul>
+            {% for i in insights %}
+            <li>{{ i }}</li>
+            {% endfor %}
+        </ul>
+    </div>
+    {% endif %}
+
+    <div class="card">
+        <h2>Analytics</h2>
+        <p><b>Average Marks:</b> {{ avg_marks }}</p>
+
+        <canvas id="chart"></canvas>
+    </div>
+
+</div>
+
+<script>
+const data = {
+    labels: [1,2,3,4,5,6,7,8,9,10],
+    datasets: [{
+        label: 'Last 10 Predictions',
+        data: {{ history }},
+        borderWidth: 2
+    }]
+};
+
+new Chart(document.getElementById('chart'), {
+    type: 'line',
+    data: data
+});
+</script>
+
+</body>
+</html>

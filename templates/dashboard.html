@@ -1,0 +1,35 @@
+<h2>Dashboard</h2>
+
+<form method="POST">
+<input name="study" placeholder="Study">
+<input name="sleep" placeholder="Sleep">
+<input name="attendance" placeholder="Attendance">
+<input name="previous" placeholder="Previous Marks">
+<button>Predict</button>
+</form>
+
+{% if result %}
+<p>Marks: {{result.marks}}</p>
+<p>Grade: {{result.grade}}</p>
+{% endif %}
+
+{% for i in insights %}
+<p>{{i}}</p>
+{% endfor %}
+
+<h3>Average: {{avg}}</h3>
+
+<canvas id="chart"></canvas>
+
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<script>
+new Chart(document.getElementById('chart'), {
+type: 'line',
+data: {
+labels: [1,2,3,4,5,6,7,8,9,10],
+datasets: [{ data: {{history}} }]
+}
+});
+</script>
+
+<a href="/logout">Logout</a>
